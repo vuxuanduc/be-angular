@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Http\Controllers\admin\api\users;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\Request;
+
+class UsersController extends Controller
+{
+    public function listUser() {
+        $users = User::with('role')->get();
+        return response()->json($users);
+    }
+}
