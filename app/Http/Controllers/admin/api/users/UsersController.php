@@ -12,4 +12,17 @@ class UsersController extends Controller
         $users = User::with('role')->get();
         return response()->json($users);
     }
+
+    public function deleteUser($id) {
+        $user = User::find($id);
+        if(!$user) {
+            return response()->json(['message' => 'User not found']);
+        }
+
+        $check = $user->delete();
+        if($check) {
+            return response()->json(['message' => 'User deleted successfully']);
+        }
+        return response()->json(['message' => 'User not deleted']);
+    }
 }
