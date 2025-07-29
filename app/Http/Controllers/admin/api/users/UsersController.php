@@ -16,13 +16,22 @@ class UsersController extends Controller
     public function deleteUser($id) {
         $user = User::find($id);
         if(!$user) {
-            return response()->json(['message' => 'User not found']);
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'User not found'
+            ]);
         }
 
         $check = $user->delete();
         if($check) {
-            return response()->json(['message' => 'User deleted successfully']);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'User deleted successfully'
+            ]);
         }
-        return response()->json(['message' => 'User not deleted']);
+        return response()->json([
+            'status' => 'failed',
+            'message' => 'User not deleted'
+        ]);
     }
 }
