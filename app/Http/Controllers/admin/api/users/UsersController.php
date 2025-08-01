@@ -13,6 +13,17 @@ class UsersController extends Controller
         return response()->json($users);
     }
 
+    public function getOneUser($id)
+    {
+        $user = User::with('role')->find($id);
+        if(is_null($user)) {
+            return response()->json('User not found', 404);
+        }
+        return response()->json([
+            'user' => $user,
+        ], 200);
+    }
+
     public function deleteUser($id) {
         $user = User::find($id);
         if(!$user) {
@@ -32,6 +43,22 @@ class UsersController extends Controller
         return response()->json([
             'status' => 'failed',
             'message' => 'User not deleted'
+        ]);
+    }
+
+    public function createUser(Request $request) {
+        $data = $request->all();
+        $data['password'] = bcrypt('12345678');
+        $newUser = User::query()->create($data);
+        if($newUser) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'User created successfully'
+            ]);
+        }
+        return response()->json([
+            'status' => 'failed',
+            'message' => 'User not created'
         ]);
     }
 }
