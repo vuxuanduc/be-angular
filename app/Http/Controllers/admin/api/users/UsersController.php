@@ -61,4 +61,26 @@ class UsersController extends Controller
             'message' => 'User not created'
         ]);
     }
+
+    public function updateUser(Request $request, $id) {
+        $data = $request->all();
+        $user = User::find($id);
+        if(!$user) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'User not found'
+            ]);
+        }
+        $check = $user->update($data);
+        if($check) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'User updated successfully'
+            ]);
+        }
+        return response()->json([
+            'status' => 'failed',
+            'message' => 'User not updated'
+        ]);
+    }
 }
